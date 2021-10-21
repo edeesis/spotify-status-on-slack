@@ -15,7 +15,7 @@ function setProfile() {
 
 function reset() {
   echo 'Resetting status'
-  PAYLOAD="{ \"profile\": { \"status_text\" : \"\", \"status_emoji\" : \"\" } }"n
+  PAYLOAD="{ \"profile\": { \"status_text\" : \"\", \"status_emoji\" : \"\" } }"
   setProfile "$PAYLOAD"
 }
 
