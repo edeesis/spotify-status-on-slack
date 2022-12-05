@@ -7,7 +7,17 @@ A very simple `bash` script to set Slack status to your currently playing track 
 
 - Clone this repo somewhere
 
-- Set `LEGACY_TOKEN` var to the correct value. For more info, read [here](https://api.slack.com/custom-integrations/legacy-tokens)
+- Create a Slack App, giving you a Client ID and a Client Secret
+
+- Set `LEGACY_TOKEN` var to the correct value. For more info, read [here](https://api.slack.com/authentication/oauth-v2#overview). You have to request the following scopes:
+
+user_scope=user.profile:read,user.profile:write
+
+https://slack.com/oauth/v2/authorize?scope=users.profile:read,users.profile:write&client_id=<client_id>
+
+Then afterwards call the following:
+
+curl -F code=<code retrieved from previous> -F client_id=<client_id> -F client_secret=<client_secret> https://slack.com/api/oauth.v2.access
 
 - Set a reasonable personal crontab, e.g. to your working hours
 

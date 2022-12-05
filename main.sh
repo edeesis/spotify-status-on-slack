@@ -13,10 +13,19 @@ function setProfile() {
   curl -X POST -H "Authorization: Bearer $LEGACY_TOKEN" -H "Content-Type: application/json; charset=UTF-8" -s -d "$PAYLOAD" "https://slack.com/api/users.profile.set" > /dev/null
 }
 
+function getProfile() {
+  echo "Calling https://api.slack.com/methods/users.profile.get with $PAYLOAD"
+  PROFILE=$(curl -X POST -H "Authorization: Bearer $LEGACY_TOKEN" -H "Content-Type: application/json; charset=UTF-8" -s -d "$PAYLOAD" "https://slack.com/api/users.profile.get")
+}
+
 function reset() {
   echo 'Resetting status'
   PAYLOAD="{ \"profile\": { \"status_text\" : \"\", \"status_emoji\" : \"\" } }"
-  setProfile "$PAYLOAD"
+  getProfile
+  EMOJI=$(echo "$PROFILE" | jq -r .profile.status_emoji)
+  if [ $EMOJI = ":headphones:" ]; then
+    setProfile "$PAYLOAD"
+  fi
 }
 
 function onexit() {
