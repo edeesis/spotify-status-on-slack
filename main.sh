@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh -x
 
 # Spotify legacy token
 
@@ -14,15 +14,15 @@ function setProfile() {
 }
 
 function getProfile() {
-  echo "Calling https://api.slack.com/methods/users.profile.get with $PAYLOAD"
-  PROFILE=$(curl -X POST -H "Authorization: Bearer $LEGACY_TOKEN" -H "Content-Type: application/json; charset=UTF-8" -s -d "$PAYLOAD" "https://slack.com/api/users.profile.get")
+  echo "Calling https://api.slack.com/methods/users.profile.get"
+  PROFILE=$(curl -H "Authorization: Bearer $LEGACY_TOKEN" -H "Content-Type: application/json; charset=UTF-8" -s "https://slack.com/api/users.profile.get")
 }
 
 function reset() {
   echo 'Resetting status'
   PAYLOAD="{ \"profile\": { \"status_text\" : \"\", \"status_emoji\" : \"\" } }"
   getProfile
-  EMOJI=$(echo "$PROFILE" | jq -r .profile.status_emoji)
+  EMOJI=$(echo $PROFILE | /usr/local/bin/jq -r '.profile.status_emoji')
   if [ $EMOJI = ":headphones:" ]; then
     setProfile "$PAYLOAD"
   fi

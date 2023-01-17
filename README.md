@@ -17,7 +17,9 @@ https://slack.com/oauth/v2/authorize?scope=users.profile:read,users.profile:writ
 
 Then afterwards call the following:
 
+```bash
 curl -F code=<code retrieved from previous> -F client_id=<client_id> -F client_secret=<client_secret> https://slack.com/api/oauth.v2.access
+```
 
 - Set a reasonable personal crontab, e.g. to your working hours
 
